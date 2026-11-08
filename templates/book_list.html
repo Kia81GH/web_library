@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>فهرست کتاب‌ها</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background-color: #f3f6fa;
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #1d3557;
+            color: white;
+            padding: 24px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-title h1 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .header-title p {
+            color: #dbe7f5;
+            font-size: 14px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            border: 1px solid #b9cce2;
+            padding: 10px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            background-color: #274c77;
+        }
+
+        main {
+            padding: 38px 0;
+        }
+
+        .page-intro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .page-intro h2 {
+            color: #1d3557;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .page-intro p {
+            color: #687780;
+            font-size: 14px;
+        }
+
+        .book-count {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .book-card {
+            background-color: white;
+            border: 1px solid #e0e7ef;
+            border-radius: 8px;
+            padding: 22px;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 3px 12px rgba(38, 50, 56, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(38, 50, 56, 0.12);
+        }
+
+        .book-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e8f1fb;
+            border-radius: 7px;
+            font-size: 27px;
+            margin-bottom: 17px;
+        }
+
+        .book-title {
+            color: #1d3557;
+            font-size: 19px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .book-author {
+            color: #586b75;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .book-info {
+            border-top: 1px solid #edf0f3;
+            padding-top: 14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .info-item {
+            color: #687780;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .info-item strong {
+            display: block;
+            color: #263238;
+            font-size: 14px;
+        }
+
+        .availability {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 7px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .available {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .unavailable {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .empty-state {
+            background-color: white;
+            border: 1px solid #e0e7ef;
+            border-radius: 8px;
+            padding: 50px 20px;
+            text-align: center;
+            color: #687780;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background-color: #263238;
+            color: #cfd8dc;
+            text-align: center;
+            padding: 18px;
+            margin-top: 25px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+            .book-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-content,
+            .page-intro {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .back-link {
+                width: 100%;
+                text-align: center;
+            }
+
+            .book-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .book-count {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container header-content">
+
+            <div class="header-title">
+                <h1>سامانه مدیریت کتابخانه</h1>
+                <p>فهرست کتاب‌های ثبت‌شده در کتابخانه</p>
+            </div>
+
+            <a class="back-link" href="/">
+                بازگشت به صفحه اصلی
+            </a>
+
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <section class="page-intro">
+                <div>
+                    <h2>فهرست کتاب‌ها</h2>
+                    <p>
+                        در این بخش اطلاعات کتاب‌های موجود در سیستم نمایش داده می‌شود.
+                    </p>
+                </div>
+
+                <div class="book-count">
+                    تعداد کتاب‌ها: {{ books|length }}
+                </div>
+            </section>
+
+            {% if books %}
+
+                <section class="book-grid">
+
+                    {% for book in books %}
+
+                        <article class="book-card">
+
+                            <div>
+                                <div class="book-icon">📖</div>
+
+                                <h3 class="book-title">
+                                    {{ book.title }}
+                                </h3>
+
+                                <p class="book-author">
+                                    نویسنده: {{ book.author }}
+                                </p>
+
+                                <div class="book-info">
+                                    <div class="info-item">
+                                        سال نشر
+                                        <strong>
+                                            {{ book.publication_year }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="info-item">
+                                        تعداد صفحات
+                                        <strong>
+                                            {{ book.page_count }}
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if book.is_available %}
+                                <span class="availability available">
+                                    در دسترس است
+                                </span>
+                            {% else %}
+                                <span class="availability unavailable">
+                                    در امانت است
+                                </span>
+                            {% endif %}
+
+                        </article>
+
+                    {% endfor %}
+
+                </section>
+
+            {% else %}
+
+                <section class="empty-state">
+                    <div class="empty-icon">📚</div>
+
+                    <h3>هنوز کتابی ثبت نشده است</h3>
+
+                    <p>
+                        در حال حاضر هیچ کتابی در پایگاه داده وجود ندارد.
+                    </p>
+                </section>
+
+            {% endif %}
+
+        </div>
+    </main>
+
+    <footer>
+        سامانه مدیریت کتابخانه
+    </footer>
+
+</body>
+
+</html>

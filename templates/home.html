@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>سامانه مدیریت کتابخانه</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #1d3557;
+            color: white;
+            padding: 22px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+            margin-bottom: 7px;
+        }
+
+        .brand p {
+            color: #dbe7f5;
+            font-size: 14px;
+        }
+
+        .date {
+            background-color: #274c77;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        main {
+            padding: 42px 0;
+        }
+
+        .welcome {
+            margin-bottom: 28px;
+        }
+
+        .welcome h2 {
+            color: #1d3557;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #607080;
+            line-height: 1.9;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .option-card {
+            background-color: white;
+            border: 1px solid #e1e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 3px 12px rgba(38, 50, 56, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(38, 50, 56, 0.12);
+        }
+
+        .icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 26px;
+            margin-bottom: 18px;
+        }
+
+        .books .icon {
+            background-color: #e3f2fd;
+        }
+
+        .members .icon {
+            background-color: #e8f5e9;
+        }
+
+        .loans .icon {
+            background-color: #fff3e0;
+        }
+
+        .option-card h3 {
+            color: #263238;
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .option-card p {
+            color: #697982;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: opacity 0.2s ease;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+
+        .books .button {
+            background-color: #1976d2;
+        }
+
+        .members .button {
+            background-color: #2e7d32;
+        }
+
+        .loans .button {
+            background-color: #ef6c00;
+        }
+
+        footer {
+            background-color: #263238;
+            color: #cfd8dc;
+            text-align: center;
+            padding: 18px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .date {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="brand">
+                <h1>سامانه مدیریت کتابخانه</h1>
+                <p>مدیریت ساده کتاب‌ها، اعضا و امانت‌ها</p>
+            </div>
+
+            <div class="date">
+                امروز: {{date}}
+            </div>
+        </div>
+        <div class="date">
+                پیام ارسالی از ویو: {{text}}
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <section class="welcome">
+                <h2>به کتابخانه خوش آمدید</h2>
+                <p>
+                    برای انجام عملیات موردنظر خود، یکی از گزینه‌های زیر را انتخاب کنید.
+                </p>
+            </section>
+
+            <section class="options">
+
+                <article class="option-card books">
+                    <div>
+                        <div class="icon">📚</div>
+
+                        <h3>مدیریت کتاب‌ها</h3>
+
+                        <p>
+                            مشاهده فهرست کتاب‌ها و ثبت مشخصات کتاب جدید.
+                        </p>
+                    </div>
+
+                    <a class="button" href="{% url 'book_list' %}">
+                        مشاهده کتاب‌ها
+                    </a>
+                </article>
+
+                <article class="option-card members">
+                    <div>
+                        <div class="icon">👤</div>
+
+                        <h3>مدیریت اعضا</h3>
+
+                        <p>
+                            مشاهده اعضای کتابخانه و ثبت عضو جدید.
+                        </p>
+                    </div>
+
+                    <a class="button" href="{% url 'member_list' %}">
+                        مشاهده اعضا
+                    </a>
+                </article>
+
+                <article class="option-card loans">
+                    <div>
+                        <div class="icon">🔄</div>
+
+                        <h3>مدیریت امانت‌ها</h3>
+
+                        <p>
+                            ثبت امانت کتاب و مشاهده فهرست کتاب‌های امانت‌داده‌شده.
+                        </p>
+                    </div>
+
+                    <a class="button" href="{% url 'loan_list' %}">
+                        مشاهده امانت‌ها
+                    </a>
+                </article>
+
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        سامانه مدیریت کتابخانه
+    </footer>
+
+</body>
+</html>

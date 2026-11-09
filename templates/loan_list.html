@@ -333,10 +333,9 @@
                 <section class="form-card">
                     <h3>ثبت امانت جدید</h3>
 
-                    <form method="post" action="">
+                    <form method="post" action="{% url 'loan_list' %}">
                         {% csrf_token %}
 
-                        {{ form.non_field_errors }}
                         {{ form.as_p }}
 
                         <button class="btn btn-orange" type="submit">
@@ -385,7 +384,7 @@
                                         {% else %}
                                             —
                                         {% endif %}
-                                    </td
+                                    </td>
 
                                     <td class="date-cell">
                                         {% if loan.return_date %}

@@ -103,10 +103,6 @@ class Loan(models.Model):
     def __str__(self):
         return f"{self.book} - {self.member}"
 
-    def is_returned(self):
-        """آیا کتاب واقعاً تحویل داده شده است؟"""
-        return self.actual_return_date is not None
-
     def save(self, *args, **kwargs):
         # اگر این امانت قبلاً وجود داشته و کتابش عوض شده باشد،
         # باید کتابِ قبلی را هم بعداً بهروزرسانی کنیم.

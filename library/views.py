@@ -1,18 +1,21 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from datetime import datetime
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
-from library.models import Book,Member,Loan
-from datetime import datetime
+from .forms import MemberForm, LoanForm
+from .models import Book, Member, Loan
 
-# Create your views here.
 def index_view(request):
     now = datetime.now()
-    ms="سلام به دانشجویان بیرکار"
-    context={"date":now,"text":ms}
-    return render(request,'home.html', context)
+
+    context = {
+        "date": now,
+        "text": "سلام به دانشجویان بیرکار",
+    }
+
+    return render(request, "home.html", context)
 
 def book_list_view(request):
     books = Book.objects.all()
@@ -24,11 +27,36 @@ def book_list_view(request):
     return render(request, "book_list.html", context)
 
 def member_list_view(request):
-    members = Member.objects.all()
-    context = {"members":members}
-    return render(request,'member_list.html', context)
+    if request.method == "POST":
+        # فرم همراه با اطلاعات ارسال‌شده توسط کاربر
+        form = MemberForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("member_list")
+    else:
+        # فرم خالی برای اولین نمایش صفحه
+        form = MemberForm()
+
+    members = Member.objects.all().order_by("-id")
+
+    context = {
+        "members": members,
+        "form": form,
+    }
+
+    return render(request, "member_list.html", context)
 
 def loan_list_view(request):
+    if request.method == "POST":
+        form = LoanForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("loan_list")
+    else:
+        form = LoanForm()
+
     loans = (
         Loan.objects
         .select_related("book", "member")
@@ -37,6 +65,7 @@ def loan_list_view(request):
 
     context = {
         "loans": loans,
+        "form": form,
         "today": timezone.localdate(),
     }
 
@@ -44,14 +73,12 @@ def loan_list_view(request):
 
 @require_POST
 def loan_return_view(request, pk):
-    # فقط امانتی که هنوز بازگشت آن ثبت نشده است
     loan = get_object_or_404(
         Loan,
         pk=pk,
         return_date__isnull=True,
     )
 
-    # تاریخ تحویل واقعی؛ مستقل از موعد بازگشت
     loan.return_date = timezone.localdate()
     loan.save()
 

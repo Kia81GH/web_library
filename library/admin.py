@@ -11,9 +11,15 @@ class MemberAdmin(admin.ModelAdmin):
     list_display = ["membership_code", "first_name", "last_name", "birth_year"]
 
 class LoanAdmin(admin.ModelAdmin):
-    fields = ["book", "member", "return_date"]
-    list_display = ["book", "member", "loan_date", "return_date"]
-    list_filter = ["return_date"]   # فیلتر امانتهای باز/بسته
+    fields = ["book", "member", "due_date", "return_date"]
+    list_display = [
+        "book",
+        "member",
+        "loan_date",
+        "due_date",
+        "return_date",
+    ]
+    list_filter = ["return_date"]
 
 admin.site.register(Book, BookAdmin)
 # admin.site.register(Book)

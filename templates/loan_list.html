@@ -242,6 +242,11 @@
             color: #2e7d32;
         }
 
+        .badge-overdue {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
         .inline-form {
             display: inline;
         }
@@ -351,7 +356,8 @@
                                 <th>کتاب</th>
                                 <th>عضو</th>
                                 <th>تاریخ امانت</th>
-                                <th>تاریخ بازگشت</th>
+                                <th>موعد بازگشت</th>
+                                <th>تاریخ بازگشت واقعی</th>
                                 <th>وضعیت</th>
                                 <th>عملیات</th>
                             </tr>
@@ -374,6 +380,14 @@
                                     </td>
 
                                     <td class="date-cell">
+                                        {% if loan.due_date %}
+                                        {{ loan.due_date|date:"Y/m/d" }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td
+
+                                    <td class="date-cell">
                                         {% if loan.return_date %}
                                             {{ loan.return_date|date:"Y/m/d" }}
                                         {% else %}
@@ -385,6 +399,10 @@
                                         {% if loan.return_date %}
                                             <span class="badge badge-returned">
                                                 بازگشته
+                                            </span>
+                                        {% elif loan.due_date and loan.due_date < today %}
+                                            <span class="badge badge-overdue">
+                                                در امانت ـ دارای تأخیر
                                             </span>
                                         {% else %}
                                             <span class="badge badge-open">

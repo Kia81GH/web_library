@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
-
+from django.utils import timezone
 
 class Book(models.Model):
     book_code = models.CharField(max_length=20,unique=True,verbose_name="کد کتاب")
@@ -29,7 +29,7 @@ class Book(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title} - {self.author}"
+        return f"{self.title} - {self.author}"          
     
     def update_availability(self):
         """
@@ -88,14 +88,24 @@ class Loan(models.Model):
         verbose_name="تاریخ امانت"
     )
 
+    due_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="موعد بازگشت"
+    )
+
     return_date = models.DateField(
         null=True,
         blank=True,
-        verbose_name="تاریخ بازگشت"
+        verbose_name="تاریخ بازگشت واقعی"
     )
 
     def __str__(self):
         return f"{self.book} - {self.member}"
+
+    def is_returned(self):
+        """آیا کتاب واقعاً تحویل داده شده است؟"""
+        return self.actual_return_date is not None
 
     def save(self, *args, **kwargs):
         # اگر این امانت قبلاً وجود داشته و کتابش عوض شده باشد،

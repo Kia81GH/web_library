@@ -29,19 +29,30 @@ def member_list_view(request):
     return render(request,'member_list.html', context)
 
 def loan_list_view(request):
-    # select_related => کتاب و عضو هر امانت در همان کوئری میآید (بدون کوئری اضافه)
-    loans = Loan.objects.select_related("book", "member").order_by("-loan_date", "-id")
-    context = {"loans": loans}
+    loans = (
+        Loan.objects
+        .select_related("book", "member")
+        .order_by("-loan_date", "-id")
+    )
+
+    context = {
+        "loans": loans,
+        "today": timezone.localdate(),
+    }
+
     return render(request, "loan_list.html", context)
 
-
+@require_POST
 def loan_return_view(request, pk):
-    # فقط امانتی که هنوز برنگشته؛ وگرنه 404
-    loan = get_object_or_404(Loan, pk=pk, return_date__isnull=True)
+    # فقط امانتی که هنوز بازگشت آن ثبت نشده است
+    loan = get_object_or_404(
+        Loan,
+        pk=pk,
+        return_date__isnull=True,
+    )
 
-    loan.return_date = timezone.now().date()
-
-    # save() مدل Loan خودش وضعیت کتاب را هم درست میکند
+    # تاریخ تحویل واقعی؛ مستقل از موعد بازگشت
+    loan.return_date = timezone.localdate()
     loan.save()
 
     return redirect("loan_list")

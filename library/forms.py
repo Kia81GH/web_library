@@ -2,6 +2,53 @@ from django import forms
 from django.utils import timezone
 from .models import Book, Member, Loan
 
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+
+        fields = [
+            "book_code",
+            "title",
+            "author",
+            "publication_year",
+            "page_count",
+        ]
+
+        error_messages = {
+            "book_code": {
+                "unique": "این کد کتاب قبلاً ثبت شده است.",
+            },
+        }
+
+        widgets = {
+            "publication_year": forms.NumberInput(
+                attrs={"min": 1}
+            ),
+            "page_count": forms.NumberInput(
+                attrs={"min": 1}
+            ),
+        }
+
+    def clean_publication_year(self):
+        publication_year = self.cleaned_data["publication_year"]
+
+        if publication_year <= 0:
+            raise forms.ValidationError(
+                "سال نشر باید عددی مثبت باشد."
+            )
+
+        return publication_year
+
+    def clean_page_count(self):
+        page_count = self.cleaned_data["page_count"]
+
+        if page_count <= 0:
+            raise forms.ValidationError(
+                "تعداد صفحات باید بیشتر از صفر باشد."
+            )
+
+        return page_count
+
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member

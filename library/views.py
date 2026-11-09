@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
-from .forms import MemberForm, LoanForm
+from .forms import MemberForm, LoanForm, BookForm
 from .models import Book, Member, Loan
 
 def index_view(request):
@@ -18,10 +18,20 @@ def index_view(request):
     return render(request, "home.html", context)
 
 def book_list_view(request):
-    books = Book.objects.all()
+    if request.method == "POST":
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("book_list")
+    else:
+        form = BookForm()
+
+    books = Book.objects.all().order_by("-id")
 
     context = {
         "books": books,
+        "form": form,
     }
 
     return render(request, "book_list.html", context)

@@ -232,6 +232,65 @@
                 width: 100%;
             }
         }
+
+            .form-card {
+                background-color: white;
+                border: 1px solid #e0e7ef;
+                border-radius: 8px;
+                padding: 24px;
+                margin-bottom: 28px;
+                box-shadow: 0 3px 12px rgba(38, 50, 56, 0.06);
+        }
+
+            .form-card h3 {
+                color: #1d3557;
+                margin-bottom: 20px;
+            }
+
+            .form-card form p {
+                margin-bottom: 16px;
+            }
+
+            .form-card label {
+                display: block;
+                margin-bottom: 7px;
+                font-size: 14px;
+            }
+
+            .form-card input {
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #cbd5e1;
+                border-radius: 5px;
+                font: inherit;
+            }
+
+            .form-card input:focus {
+                outline: 2px solid #90caf9;
+                border-color: #1565c0;
+            }
+
+            .form-card .errorlist {
+                color: #c62828;
+                padding-right: 20px;
+                margin-bottom: 10px;
+                font-size: 13px;
+            }
+
+            .book-submit {
+                background-color: #1d3557;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 11px 22px;
+                font: inherit;
+                cursor: pointer;
+            }
+
+            .book-submit:hover {
+                background-color: #274c77;
+            }
+
     </style>
 </head>
 
@@ -266,6 +325,20 @@
                 <div class="book-count">
                     تعداد کتاب‌ها: {{ books|length }}
                 </div>
+            </section>
+
+            <section class="form-card">
+                <h3>ثبت کتاب جدید</h3>
+
+                <form method="post" action="{% url 'book_list' %}">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button class="book-submit" type="submit">
+                         ثبت کتاب
+                </button>
+                </form>
             </section>
 
             {% if books %}
